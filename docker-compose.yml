@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  honeypot:
+    build: .
+    container_name: ai-honeypot
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the database file to persist data across container restarts
+      - ./honeypot.db:/app/honeypot.db
+    restart: always

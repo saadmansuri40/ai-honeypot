@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Honeypot Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div class="logo">
+                <span class="shield-icon">🛡️</span> AI Honeypot
+            </div>
+            <div class="header-stats" id="header-stats">
+                <div class="stat-pill"><span class="label">Requests:</span> <span class="val" id="total-val">0</span></div>
+                <div class="stat-pill danger"><span class="label">Max Anomaly:</span> <span class="val" id="max-anomaly-val">0.00</span></div>
+            </div>
+        </header>
+        
+        <main>
+            <section class="charts-section glass-panel">
+                <h2>Anomaly Distribution</h2>
+                <div class="chart-wrapper">
+                    <canvas id="anomalyChart"></canvas>
+                </div>
+            </section>
+            
+            <section class="logs-section glass-panel">
+                <div class="section-header">
+                    <h2>Recent Requests</h2>
+                    <button id="refresh-btn" class="btn primary-btn">Refresh</button>
+                </div>
+                <div class="table-container">
+                    <table id="logs-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>IP Address</th>
+                                <th>Method</th>
+                                <th>Path</th>
+                                <th>Anomaly Score</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-body">
+                            <!-- Logs will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for showing log details -->
+    <div id="log-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <span class="close-btn">&times;</span>
+            <h2>Request Details</h2>
+            <div class="modal-body" id="modal-body">
+                <!-- Details injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
