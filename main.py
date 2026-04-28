@@ -129,11 +129,19 @@ def log_request(ip, method, path, ua, content_length, body_sample, anomaly_score
     conn.commit()
     conn.close()
 
+def load_decoy(filename, default=''):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(base_dir, 'decoys', filename)
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read()
+    return default
+
 FAKE_PAGES = {
     '/': '<html><head><title>Welcome</title></head><body><h1>Welcome</h1><p>Under construction...</p></body></html>',
-    '/login': '<html><head><title>Admin Login</title></head><body><h1>Admin Login</h1><form method="post"><input name="user" placeholder="Username"><br><input type="password" name="pass" placeholder="Password"><br><button type="submit">Login</button></form></body></html>',
-    '/wp-login.php': '<html><head><title>WordPress &rsaquo; Log In</title></head><body id="login"><h1><a href="https://wordpress.org/">Powered by WordPress</a></h1><form name="loginform" id="loginform" action="wp-login.php" method="post"><p><label for="user_login">Username or Email Address</label><input type="text" name="log" id="user_login" class="input" value="" size="20"></p><p><label for="user_pass">Password</label><input type="password" name="pwd" id="user_pass" class="input" value="" size="20"></p><p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In"></p></form></body></html>',
-    '/phpmyadmin': '<html><head><title>phpMyAdmin</title></head><body><h1>Welcome to phpMyAdmin</h1><form method="post" action="index.php"><input type="text" name="pma_username" id="input_username" value=""><input type="password" name="pma_password" id="input_password" value=""><input type="submit" value="Go" id="input_go"></form></body></html>',
+    '/login': load_decoy('admin.html', '<h1>Login</h1>'),
+    '/wp-login.php': load_decoy('wp-login.html', '<h1>WP Login</h1>'),
+    '/phpmyadmin': load_decoy('phpmyadmin.html', '<h1>phpMyAdmin</h1>'),
     '/.env': 'DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=fake_db\nDB_USERNAME=root\nDB_PASSWORD=secret',
 }
 
